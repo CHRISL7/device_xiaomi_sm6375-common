@@ -161,6 +161,7 @@ TARGET_SYSTEM_PROP += $(COMMON_PATH)/properties/system.prop
 TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
 
 # Power
+TARGET_POWERHAL_MODE_EXT := $(COMMON_PATH)/power/power-mode.cpp
 TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
 
 # Recovery
