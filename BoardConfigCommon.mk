@@ -85,7 +85,7 @@ BOARD_USES_METADATA_PARTITION := true
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Power
-TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
+TARGET_POWER_FEATURE_EXT_LIB := //$(COMMON_PATH):libpowerfeature_ext_holi
 
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
