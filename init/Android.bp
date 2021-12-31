@@ -78,6 +78,13 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "init.holi.perf.rc",
+    src: "init.holi.perf.rc",
+    sub_dir: "init",
+    vendor: true,
+}
+
+prebuilt_etc {
     name: "init.holi.rc",
     src: "init.holi.rc",
     sub_dir: "init",
