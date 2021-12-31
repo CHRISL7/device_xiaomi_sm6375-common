@@ -339,6 +339,7 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_PACKAGES += \
     init.batterysecret.rc \
     init.class_main.sh \
+    init.holi.perf.rc \
     init.holi.rc \
     init.goodix.events.sh \
     init.mi.btmac.sh \
