@@ -1,3 +1,6 @@
+# the DIAG device node is not world writable/readable.
+/dev/diag                 0666   system     oem_2901
+
 # mius iio devices
 /dev/iio:device*                                        0660   system     system
 /sys/bus/iio/devices/iio:device* buffer/enable                  0600 system system
