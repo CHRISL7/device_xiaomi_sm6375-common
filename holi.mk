@@ -98,7 +98,8 @@ PRODUCT_PRODUCT_PROPERTIES  += \
     bluetooth.hardware.power.tx_cur_ma=36
 
 PRODUCT_SYSYEM_EXT_PROPERTIES  += \
-    persist.vendor.btstack.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aptxadaptiver2-aac-ldac
+    persist.vendor.btstack.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aptxadaptiver2-aac-ldac \
+    persist.vendor.btstack.enable.lpa=true
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.bluetooth.defaultabsvol=false \
