@@ -16,8 +16,18 @@ service vendor.btmac-sh /vendor/bin/init.mi.btmac.sh
     oneshot
     disabled
 
+service vendor.goodix-events /vendor/bin/init.goodix.events.sh
+    class late_start
+    user root
+    group root system input
+    disabled
+    oneshot
+
 on property:init.svc.vendor.nv_mac=stopped
     start vendor.btmac-sh
 
 on property:ro.boot.hwname=*
     setprop ro.boot.product.hardware.sku ${ro.boot.hwname}
+
+on property:sys.boot_completed=1
+    start vendor.goodix-events
