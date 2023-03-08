@@ -15,3 +15,13 @@ service vendor.btmac-sh /vendor/bin/init.mi.btmac.sh
     group system bluetooth wifi
     oneshot
     disabled
+
+service vendor.goodix-events /vendor/bin/init.goodix.events.sh
+    class late_start
+    user root
+    group root system input
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start vendor.goodix-events
