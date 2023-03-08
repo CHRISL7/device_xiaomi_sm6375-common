@@ -1,3 +1,9 @@
+sh_binary {
+    name: "init.goodix.events.sh",
+    src: "bin/init.goodix.events.sh",
+    vendor: true,
+}
+
 prebuilt_etc {
     name: "init.xiaomi.fingerprint.rc",
     src: "etc/init.xiaomi.fingerprint.rc",
