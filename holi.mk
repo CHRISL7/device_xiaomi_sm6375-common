@@ -44,9 +44,6 @@ PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-impl-qti.recovery \
     android.hardware.boot@1.2-service
 
-PRODUCT_PACKAGES_DEBUG += \
-    bootctl
-
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
@@ -161,12 +158,8 @@ PRODUCT_COPY_FILES += \
 
 # QCOM/COMMON
 TARGET_BOARD_PLATFORM := holi
-TARGET_USE_HOLI_HALS := true
 TARGET_SEPOLICY_DIR := holi
 TARGET_EXCLUDE_QCOM_SEPOLICY := true
-TARGET_GRALLOC_HANDLE_HAS_RESERVED_SIZE := true
-
-$(call inherit-product, device/qcom/common/common.mk)
 
 TARGET_COMMON_QTI_COMPONENTS += \
     adreno \
