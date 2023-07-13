@@ -130,9 +130,6 @@ TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
 TARGET_POWERHAL_MODE_EXT := $(COMMON_PATH)/power/power-mode.cpp
 TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
 
-# QCOM/COMMON
-include device/qcom/common/BoardConfigQcom.mk
-
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
 BOARD_USES_RECOVERY_AS_BOOT := true
