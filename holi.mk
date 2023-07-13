@@ -276,8 +276,7 @@ PRODUCT_PACKAGES += \
 # Overlays
 PRODUCT_ENFORCE_RRO_TARGETS := *
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-lineage
+    $(LOCAL_PATH)/overlay
 
 # Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -330,10 +329,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level-1.xml \
     frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version-1_1.xml \
     frameworks/native/data/etc/android.software.vulkan.deqp.level-2020-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.vulkan.deqp.level.xml
-
-# Lineage Health
-PRODUCT_PACKAGES += \
-    vendor.lineage.health-service.default
 
 # Power
 PRODUCT_PACKAGES += \
@@ -441,10 +436,6 @@ PRODUCT_BOOT_JARS += \
 # Thermal
 PRODUCT_PACKAGES += \
     android.hardware.thermal@2.0-service.qti
-
-# Trust
-PRODUCT_PACKAGES += \
-    vendor.lineage.trust@1.0-service
 
 # Update engine
 PRODUCT_PACKAGES += \

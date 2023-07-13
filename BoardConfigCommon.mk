@@ -112,9 +112,6 @@ PRODUCT_COPY_FILES += \
 TARGET_USES_ION := true
 TARGET_DISABLED_UBWC := true
 
-# Lineage Health
-TARGET_HEALTH_CHARGING_CONTROL_SUPPORTS_BYPASS := false
-
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 134217728
 BOARD_DTBOIMG_PARTITION_SIZE := 8388608
@@ -215,8 +212,7 @@ DEVICE_MATRIX_FILE := $(COMMON_PATH)/vintf/compatibility_matrix.xml
 DEVICE_MANIFEST_FILE := $(COMMON_PATH)/vintf/manifest.xml
 
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
-    $(COMMON_PATH)/vintf/framework_compatibility_matrix.xml \
-    vendor/lineage/config/device_framework_matrix.xml
+    $(COMMON_PATH)/vintf/framework_compatibility_matrix.xml
 
 # WiFi
 BOARD_WLAN_DEVICE := qcwcn
