@@ -60,9 +60,6 @@ TARGET_NO_BOOTLOADER := true
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
-# Filesystem
-TARGET_FS_CONFIG_GEN := $(COMMON_PATH)/configs/config.fs
-
 # FM
 AUDIO_FEATURE_ENABLED_FM_POWER_OPT := true
 BOARD_HAS_QCA_FM_SOC := cherokee
@@ -113,7 +110,6 @@ PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(DEVICE_PATH)-kernel/vendor-modules/,$(TARGET_COPY_OUT_VENDOR)/lib/modules)
 
 # Media
-TARGET_USES_ION := true
 TARGET_DISABLED_UBWC := true
 
 # Partitions
@@ -149,12 +145,7 @@ TARGET_COPY_OUT_PRODUCT := product
 BOARD_USES_METADATA_PARTITION := true
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# Platform
-BOARD_USES_QCOM_HARDWARE := true
-TARGET_BOARD_PLATFORM := holi
-
 # Properties
-TARGET_ODM_PROP += $(COMMON_PATH)/properties/odm.prop
 TARGET_PRODUCT_PROP += $(COMMON_PATH)/properties/product.prop
 TARGET_SYSTEM_EXT_PROP += $(COMMON_PATH)/properties/system_ext.prop
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/properties/system.prop
@@ -162,6 +153,9 @@ TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
 
 # Power
 TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
+
+# QCOM/COMMON
+include device/qcom/common/BoardConfigQcom.mk
 
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
@@ -210,12 +204,10 @@ BOARD_AVB_VENDOR_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_ODM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 
 # VINTF
-DEVICE_MATRIX_FILE := $(COMMON_PATH)/vintf/compatibility_matrix.xml
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/vintf/manifest.xml
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/vintf/xiaomi_common_manifest.xml
 
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(COMMON_PATH)/vintf/xiaomi_common_framework_compatibility_matrix.xml
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
 
 # WiFi
 BOARD_WLAN_DEVICE := qcwcn
