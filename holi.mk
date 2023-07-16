@@ -163,20 +163,14 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_PACKAGES += \
-    libavservices_minijail.vendor \
     libavservices_minijail_vendor \
-    libcodec2_hidl@1.1.vendor \
-    libmm-omxcore \
     libOmxAacEnc \
     libOmxAmrEnc \
-    libOmxCore \
     libOmxEvrcEnc \
     libOmxG711Enc \
     libOmxQcelp13Enc \
-    libstagefrighthw \
     libstagefright_omx \
-    libstagefright_foundation \
-    libstagefright_softomx.vendor
+    libstagefright_foundation
 
 # Mlipay
 PRODUCT_PACKAGES += \
@@ -268,6 +262,7 @@ TARGET_COMMON_QTI_COMPONENTS += \
     display \
     dsprpcd \
     gps \
+    media \
     vibrator
 
 # QMI
