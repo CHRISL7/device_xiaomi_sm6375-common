@@ -320,6 +320,7 @@ TARGET_EXCLUDE_QCOM_SEPOLICY := true
 $(call inherit-product, device/qcom/common/common.mk)
 
 TARGET_COMMON_QTI_COMPONENTS += \
+    alarm \
     vibrator
 
 # QMI
