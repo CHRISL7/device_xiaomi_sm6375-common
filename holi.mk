@@ -290,6 +290,7 @@ TARGET_COMMON_QTI_COMPONENTS += \
     av \
     charging \
     display \
+    dsprpcd \
     vibrator
 
 # QMI
