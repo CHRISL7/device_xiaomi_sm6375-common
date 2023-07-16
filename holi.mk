@@ -221,7 +221,6 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_PACKAGES += \
-    libavservices_minijail \
     libavservices_minijail.vendor \
     libavservices_minijail_vendor \
     libcodec2_hidl@1.1.vendor \
@@ -324,6 +323,7 @@ $(call inherit-product, device/qcom/common/common.mk)
 
 TARGET_COMMON_QTI_COMPONENTS += \
     alarm \
+    av \
     vibrator
 
 # QMI
