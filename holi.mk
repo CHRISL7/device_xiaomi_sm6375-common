@@ -220,7 +220,6 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_PACKAGES += \
-    libavservices_minijail \
     libavservices_minijail.vendor \
     libavservices_minijail_vendor \
     libcodec2_hidl@1.1.vendor \
@@ -330,6 +329,7 @@ PRODUCT_COPY_FILES += \
 # QC common
 TARGET_COMMON_QTI_COMPONENTS += \
     alarm \
+    av \
     vibrator
 
 # QMI
