@@ -329,6 +329,7 @@ PRODUCT_COPY_FILES += \
 
 # QC common
 TARGET_COMMON_QTI_COMPONENTS += \
+    alarm \
     vibrator
 
 # QMI
