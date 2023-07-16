@@ -192,12 +192,6 @@ PRODUCT_PACKAGES += \
     android.hardware.gnss@1.1.vendor \
     android.hardware.gnss@2.1.vendor
 
-# Health
-PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl \
-    android.hardware.health@2.1-impl.recovery \
-    android.hardware.health@2.1-service
-
 # IFAA manager
 PRODUCT_PACKAGES += \
     IFAAService
@@ -314,6 +308,7 @@ TARGET_COMMON_QTI_COMPONENTS += \
     adreno \
     alarm \
     av \
+    charging \
     vibrator
 
 # QMI
