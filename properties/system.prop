@@ -8,9 +8,6 @@ ro.lmk.kill_timeout_ms=15
 # Fingerprint
 sys.fp.miui.token=0
 
-# Graphics
-debug.sf.enable_hwc_vds=1
-
 # Fingerprint
 sys.fp.miui.token=0
 
