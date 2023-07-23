@@ -131,20 +131,6 @@ vendor/lib64/hw/vendor.qti.hardware.capabilityconfigstore@1.0-impl.so
 vendor/lib64/hw/consumerir.default.so:vendor/lib64/hw/consumerir.holi.so
 
 # DPM
-framework/tcmclient.jar
-system_ext/bin/dpmd
-system_ext/etc/dpm/dpm.conf
-system_ext/etc/init/dpmd.rc
-system_ext/etc/permissions/com.qti.dpmframework.xml
-system_ext/etc/permissions/dpmapi.xml
-system_ext/framework/com.qti.dpmframework.jar
-system_ext/framework/dpmapi.jar
-system_ext/lib64/com.qualcomm.qti.dpm.api@1.0.so
-system_ext/lib64/libdpmctmgr.so
-system_ext/lib64/libdpmfdmgr.so
-system_ext/lib64/libdpmframework.so
-system_ext/lib64/libdpmtcm.so
--system_ext/priv-app/dpmserviceapp/dpmserviceapp.apk
 vendor/bin/dpmQmiMgr
 vendor/etc/init/dpmQmiMgr.rc
 vendor/lib64/com.qualcomm.qti.dpm.api@1.0.so
@@ -182,6 +168,15 @@ vendor/etc/init/vendor.qti.hardware.dsp@1.0-service.rc
 vendor/etc/seccomp_policy/vendor.qti.hardware.dsp.policy
 vendor/lib64/vendor.qti.hardware.dsp@1.0.so
 
+# EmbmsslServer
+vendor/bin/embmsslServer
+vendor/etc/init/init.embmssl_server.rc
+vendor/lib64/libembmsservice.so
+vendor/lib64/vendor.qti.hardware.embmssl@1.0-adapter-helper.so
+vendor/lib64/vendor.qti.hardware.embmssl@1.0.so
+vendor/lib64/vendor.qti.hardware.embmssl@1.1-adapter-helper.so
+vendor/lib64/vendor.qti.hardware.embmssl@1.1.so
+
 # Embedded Secure Element power manager
 vendor/lib64/vendor.qti.esepowermanager@1.0.so
 
@@ -198,17 +193,6 @@ vendor/etc/init/android.hardware.gatekeeper@1.0-service-qti.rc
 vendor/lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so
 
 # IMS
--system_ext/app/uceShimService/uceShimService.apk
-system_ext/lib64/lib-imsvideocodec.so
-system_ext/lib64/lib-imsvt.so
-system_ext/lib64/lib-imsvtextutils.so
-system_ext/lib64/lib-imsvtutils.so
-system_ext/lib64/libdiag_system.so
-system_ext/lib64/libimscamera_jni.so
-system_ext/lib64/libimsmedia_jni.so
-system_ext/lib64/vendor.qti.diaghal@1.0.so
-system_ext/lib64/vendor.qti.imsrtpservice@3.0.so
--system_ext/priv-app/ims/ims.apk|101f8487b5954514421a3956cef437852bf05e0b
 vendor/bin/ims_rtp_daemon
 vendor/bin/imsdaemon
 vendor/etc/init/ims_rtp_daemon.rc
@@ -375,7 +359,6 @@ vendor/bin/init.qti.qcv.sh
 vendor/etc/init/init.qti.qcv.rc
 
 # QMI
-etc/sysconfig/qti_whitelist.xml
 vendor/bin/irsc_util
 vendor/bin/qmipriod
 vendor/bin/qrtr-lookup
@@ -420,56 +403,6 @@ vendor/lib64/libqmiextservices.so
 vendor/lib64/libqmiservices.so
 
 # RIL
-etc/permissions/privapp-permissions-qti.xml
--system_ext/app/QtiTelephonyService/QtiTelephonyService.apk
--system_ext/app/atfwd/atfwd.apk
-system_ext/etc/permissions/embms.xml
-system_ext/etc/permissions/privapp-permissions-qti-system-ext.xml
-system_ext/etc/permissions/qcrilhook.xml
-system_ext/etc/permissions/qti_permissions.xml
--system_ext/framework/embmslibrary.jar
-system_ext/framework/qcrilhook.jar
-system_ext/lib/vendor.qti.hardware.radio.am@1.0.so
-system_ext/lib/vendor.qti.hardware.radio.internal.deviceinfo@1.0.so
-system_ext/lib/vendor.qti.hardware.radio.lpa@1.0.so
-system_ext/lib/vendor.qti.hardware.radio.lpa@1.1.so
-system_ext/lib/vendor.qti.hardware.radio.qcrilhook@1.0.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@1.0.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@2.0.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@2.1.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@2.2.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@2.3.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@2.4.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@2.5.so
-system_ext/lib/vendor.qti.hardware.radio.qtiradio@2.6.so
-system_ext/lib/vendor.qti.hardware.radio.uim@1.0.so
-system_ext/lib/vendor.qti.hardware.radio.uim@1.1.so
-system_ext/lib/vendor.qti.hardware.radio.uim@1.2.so
-system_ext/lib/vendor.qti.hardware.radio.uim_remote_client@1.0.so
-system_ext/lib/vendor.qti.hardware.radio.uim_remote_client@1.1.so
-system_ext/lib/vendor.qti.hardware.radio.uim_remote_client@1.2.so
-system_ext/lib/vendor.qti.hardware.radio.uim_remote_server@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.am@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.internal.deviceinfo@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.lpa@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.lpa@1.1.so
-system_ext/lib64/vendor.qti.hardware.radio.qcrilhook@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.0.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.1.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.2.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.3.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.4.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.5.so
-system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.6.so
-system_ext/lib64/vendor.qti.hardware.radio.uim@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.uim@1.1.so
-system_ext/lib64/vendor.qti.hardware.radio.uim@1.2.so
-system_ext/lib64/vendor.qti.hardware.radio.uim_remote_client@1.0.so
-system_ext/lib64/vendor.qti.hardware.radio.uim_remote_client@1.1.so
-system_ext/lib64/vendor.qti.hardware.radio.uim_remote_client@1.2.so
-system_ext/lib64/vendor.qti.hardware.radio.uim_remote_server@1.0.so
--system_ext/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk
 -vendor/app/IWlanService/IWlanService.apk
 vendor/bin/hw/qcrilNrd
 vendor/bin/ATFWD-daemon
@@ -665,8 +598,6 @@ system_ext/lib/libwfduibcsinkinterface.so
 system_ext/lib/libwfduibcsrc.so
 system_ext/lib/libwfduibcsrcinterface.so
 system_ext/lib/vendor.qti.hardware.wifidisplaysession@1.0.so
-system_ext/lib64/libmmrtpdecoder.so
-system_ext/lib64/libmmrtpencoder.so
 system_ext/lib64/libwfdclient.so
 system_ext/lib64/libwfdcommonutils.so
 system_ext/lib64/libwfdconfigutils.so

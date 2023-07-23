@@ -169,9 +169,6 @@ SOONG_CONFIG_ufsbsg_ufsframework := bsg
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
 
-# RIL
-ENABLE_VENDOR_RIL_SERVICE := true
-
 # Security patch level
 VENDOR_SECURITY_PATCH := 2023-07-01
 
