@@ -328,11 +328,7 @@ PRODUCT_COPY_FILES += \
 
 # WiFi Display
 PRODUCT_PACKAGES += \
-    libnl \
     libwfdaac_vendor
-
-PRODUCT_BOOT_JARS += \
-    WfdCommon
 
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/sm6375-common/sm6375-common-vendor.mk)
