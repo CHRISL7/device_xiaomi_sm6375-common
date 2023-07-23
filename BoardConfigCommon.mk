@@ -150,7 +150,6 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # Properties
 TARGET_ODM_PROP += $(COMMON_PATH)/properties/odm.prop
 TARGET_PRODUCT_PROP += $(COMMON_PATH)/properties/product.prop
-TARGET_SYSTEM_EXT_PROP += $(COMMON_PATH)/properties/system_ext.prop
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/properties/system.prop
 TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
 
@@ -171,9 +170,6 @@ TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
 
 # RenderScript
 OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
-
-# RIL
-ENABLE_VENDOR_RIL_SERVICE := true
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2023-07-01
