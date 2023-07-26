@@ -88,10 +88,6 @@ BOARD_HAVE_QCOM_FM := true
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0.vendor
 
-# IFAA manager
-PRODUCT_PACKAGES += \
-    IFAAService
-
 # Input
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/idc/,$(TARGET_COPY_OUT_SYSTEM)/usr/idc) \
@@ -107,11 +103,6 @@ PRODUCT_PACKAGES += \
     libstagefright_foundation \
     libcodec2_soft_common.vendor \
     libsfplugin_ccodec_utils.vendor
-
-# Mlipay
-PRODUCT_PACKAGES += \
-    vendor.xiaomi.hardware.mlipay@1.1.vendor \
-    vendor.xiaomi.hardware.mtdservice@1.0.vendor
 
 # Neural networks
 PRODUCT_PACKAGES += \
