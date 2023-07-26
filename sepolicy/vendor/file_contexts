@@ -57,9 +57,6 @@
 # Label discard_max_bytes in /data partition
 /sys/devices/platform/soc/4804000.ufshc/host0/target0:0:0/0:0:0:0/block/sda/queue/discard_max_bytes                            u:object_r:vendor_sysfs_scsi_host:s0
 
-# Mlipay
-/vendor/bin/mlipayd@1.1                                                                                                        u:object_r:hal_mlipay_default_exec:s0
-
 # NFC
 /dev/pn553                                                                                                                     u:object_r:nfc_device:s0
 /dev/pn54x                                                                                                                     u:object_r:nfc_device:s0
