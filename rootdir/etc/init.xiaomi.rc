@@ -1,16 +1,27 @@
 on init
     chmod 666 /sys/module/camera/drivers/platform:CAM-FLASH-DRIVER/5c1b000.qcom,cci0:qcom,camera-flash@0/ktd2691_flash
 
+    chown system system /sys/class/qcom-battery/charging_call_state
+    chmod 0660 /sys/class/qcom-battery/charging_call_state
+
+    setprop  persist.bluetooth.disableabsvol true
+    setprop  persist.sys.btsatck.absvolfeature false
+    setprop  persist.vendor.bt.a2dp.absvolfeature false
+
 on post-fs-data
     mkdir /data/vendor/.tp/ 0775 system system
     mkdir /data/vendor/thermal 0771 root system
     mkdir /data/vendor/thermal/config 0771 root system
     mkdir /data/vendor/mac_addr 0771 system system
+    mkdir /data/vendor/mac_addr 0775 root system
+    mkdir /data/vendor/dolby 0770 media media
 
     setprop vendor.qti.qdma.oper.mode 3
 
     chown system system /dev/lirc0
     chmod 0666 /dev/lirc0
+    chown system system /dev/ir_spi
+    chmod 0666 /dev/ir_spi
 
     chown system system /sys/class/drm/card0-DSI-1/mipi_reg
     chmod 664 /sys/class/drm/card0-DSI-1/mipi_reg
@@ -27,7 +38,10 @@ on boot
     chown system system /sys/class/drm/card0-DSI-1/panel_info
     chmod 0444 /sys/class/drm/card0-DSI-1/panel_info
 
-    chmod 0777 /sys/bus/coresight/devices/coresight-tmc-etr/block_size
+    chown system system /sys/class/drm/card0-DSI-1/doze_backlight
+    chown system system /sys/class/drm/card0-DSI-1/flat_mode
+    chmod 0664 /sys/class/drm/card0-DSI-1/flat_mode
+
     chmod 0777 /dev/byte-cntr
 
     chmod 0777 /sys/class/drm/card0-DSI-1/disp_param
@@ -49,40 +63,37 @@ on boot
     mkdir /mnt/vendor/persist/camera 0777 system system
     chmod 0777 /data/vendor/camera
     chmod 0666 /mnt/vendor/persist/camera/rear_dc_cal_wd.bin
+    chmod 0666 /mnt/vendor/persist/camera/rear_dc_cal_wu.bin
     chmod 0666 /data/vendor/camera/com.xiaomi.dcal.wu.data
+    chmod 0666 /data/vendor/camera/com.xiaomi.dcal.wu.data
+
+    mkdir /mnt/vendor/persist/audio 0777 system system
+    mkdir /vendor/firmware/awinic/
+    mkdir /mnt/vendor/persist/audio 0777 system system
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/cali
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/cali_f0
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/cali_re
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/dsp_re
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/cali
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/cali_f0
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/cali_re
+    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/dsp_re
+    mkdir /vendor/firmware/fsm1962/
+
+    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0036/cali_f0
+    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0036/cali_re
+
+    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0037/cali_f0
+    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0037/cali_re
+
+    chmod 0644 /mnt/vendor/persist/audio/aw_cali.bin
+    chmod 0644 /mnt/vendor/persist/audio/fsm_calib.bin
 
 on charger
     start mi_thermald   
 
-# xionghaifeng 20221104 HQ-261662 & HQ-253656 add for CN SSR set on IN
-on property:ro.vendor.miui.build.region=in
-    setprop persist.vendor.ssr.restart_level ALL_ENABLE
-
-on property:persist.odm.ril.oem.sno=*
-    setprop ro.ril.oem.sno ${persist.odm.ril.oem.sno}
-
-on property:persist.odm.ril.oem.psno=*
-    setprop ro.ril.oem.psno ${persist.odm.ril.oem.psno}
-
-on property:persist.odm.ril.oem.wifimac=*
-    setprop ro.ril.oem.wifimac ${persist.odm.ril.oem.wifimac}
-
-on property:persist.odm.ril.oem.btmac=*
-    setprop ro.ril.oem.btmac ${persist.odm.ril.oem.btmac}
-
-on property:persist.odm.ril.factory_id=*
-    setprop ro.ril.factory_id ${persist.odm.ril.factory_id}
-
-on property:persist.odm.ril.oem.imei1=*
-    setprop ro.ril.oem.imei1 ${persist.odm.ril.oem.imei1}
-
-on property:persist.odm.ril.oem.imei2=*
-    setprop ro.ril.oem.imei2 ${persist.odm.ril.oem.imei2}
-
 on property:sys.boot.hwc=*
     setprop ro.boot.hwc ${sys.boot.hwc}
-on property:sys.boot.cpuid=*
-    setprop ro.boot.cpuid ${sys.boot.cpuid}
 
 on property:sys.boot_completed=1
     setprop camera.disable_zsl_mode true
