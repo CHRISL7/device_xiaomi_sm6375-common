@@ -24,19 +24,38 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
+# Changes from Qualcomm Innovation Center are provided under the following license:
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
 
 import /vendor/etc/init/hw/init.qcom.usb.rc
 import /vendor/etc/init/hw/init.target.rc
-import /vendor/etc/init/hw/init.xiaomi.rc
 
 on early-init
+    mount debugfs debugfs /sys/kernel/debug
+    chmod 0755 /sys/kernel/debug
+    mount tracefs tracefs /sys/kernel/tracing
+    chmod 0755 /sys/kernel/tracing
+
   # create symlink for vendor mount points
     symlink /vendor/firmware_mnt /firmware
     symlink /vendor/bt_firmware /bt_firmware
     symlink /vendor/dsp /dsp
 
+  # Change ownership of hw_recovery related nodes
+    chown system graphics /sys/kernel/debug/dri/0/debug/dump
+    chown system graphics /sys/kernel/debug/dri/0/debug/recovery_reg
+    chown system graphics /sys/kernel/debug/dri/0/debug/recovery_dbgbus
+    chown system graphics /sys/kernel/debug/dri/0/debug/recovery_vbif_dbgbus
+    chown system graphics /sys/kernel/debug/dri/0/debug/recovery_dsi_dbgbus
+
   # Change ownership of sysfs power control node
     chown system graphics /sys/class/drm/card0/device/power/control
+
+    # Change ownership of sw_sync node
+    chown system graphics /sys/kernel/debug/sync/sw_sync
+    chmod 0666 /sys/kernel/debug/sync/sw_sync
 
     #Disable UFS clock scaling
     write /sys/bus/platform/devices/1d84000.ufshc/clkscale_enable 0
@@ -59,8 +78,8 @@ on init
     chown root system /sys/fs/cgroup/memory/bg/tasks
     chmod 0660 /sys/fs/cgroup/memory/bg/tasks
 
-    #ExtR HONGMI-90103,jiyanan.wt,ADD,20211130,enbale WLAN PD restart
-    write /sys/bus/msm_subsys/devices/subsys2/restart_level related
+on post-fs
+    chmod 0755 /sys/kernel/debug/tracing
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -71,6 +90,8 @@ on early-boot
     write /sys/devices/virtual/npu/msm_npu/boot 1
     write /sys/devices/virtual/cvp/cvp/boot 1
     exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.qcom.early_boot.sh
+    exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.qti.can.sh
+    setprop ro.sf.lcd_density ${vendor.display.lcd_density}
 
     chown system system /mnt/vendor/persist/data/pfm/licenses
     chmod 0775 /mnt/vendor/persist/data/pfm/licenses
@@ -96,6 +117,8 @@ on boot
     chown bluetooth bluetooth /sys/module/hci_smd/parameters/hcismd_set
     chown system system /sys/module/msm_core/parameters/polling_interval
     chown system system /sys/module/msm_core/parameters/disabled
+    chown system system /sys/kernel/debug/msm_core/enable
+    chown system system /sys/kernel/debug/msm_core/ptable
     chown system system /sys/kernel/boot_slpi/ssr
     chown system system /sys/module/radio_iris_transport/parameters/fmsmd_set
     chmod 0660 /sys/module/bluetooth_power/parameters/power
@@ -136,8 +159,6 @@ on boot
 
     setprop wifi.interface wlan0
 
-    setprop persist.bluetooth.a2dp_offload.disabled false
-
     setprop ro.telephony.call_ring.multiple false
 
     #Remove SUID bit for iproute2 ip tool
@@ -166,9 +187,7 @@ on boot
     # bond0 used by FST Manager
     chown wifi wifi /sys/class/net/bond0/bonding/queue_id
 
-    # Allow access to emmc rawdump block partition and dload sysfs node
-    chown root system /dev/block/bootdevice/by-name/rawdump
-    chmod 0660 /dev/block/bootdevice/by-name/rawdump
+    # Allow access to emmc dload sysfs node
     chown root system /sys/kernel/dload/emmc_dload
     chmod 0660 /sys/kernel/dload/emmc_dload
     chown root system /dev/block/bootdevice/by-name/ramdump
@@ -180,6 +199,8 @@ on boot
     chown system system /sys/class/backlight/panel0-backlight/max_brightness
     chown system system /sys/class/backlight/panel1-backlight/brightness
     chown system system /sys/class/backlight/panel1-backlight/max_brightness
+    chown system system /sys/class/backlight/soc:backlight/brightness
+    chown system system /sys/class/backlight/soc:backlight/max_brightness
 
     # Allow access to sensors device attributes
     chown system system /sys/class/sensors/MPU6050-accel/enable
@@ -205,15 +226,6 @@ on boot
 
     # limit discard size to 128MB in order to avoid long IO latency
     write /sys/block/sda/queue/discard_max_bytes 134217728
-    
-    chmod 0777 /sys/bus/coresight/devices/coresight-tmc-etr/block_size
-    chmod 0777 /dev/byte-cntr
-
-    #enable coresight for diag_mdlog_system over qdss
-    write /sys/bus/coresight/devices/coresight-tmc-etr/buffer_size 0x2000000
-    write /sys/bus/coresight/devices/coresight-tmc-etr/enable_sink 1
-    write /sys/bus/coresight/devices/coresight-stm/enable_source 1
-    write /sys/bus/coresight/devices/coresight-stm/hwevent_enable 0
 
 # msm specific files that need to be created on /data
 on post-fs-data
@@ -261,10 +273,6 @@ on post-fs-data
     mkdir /data/vendor/wifi/wigig_hostapd 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
-    mkdir /data/vendor/wlan_logs_t 0770 system wifi
-
-    #ExtR HONGMI-99227, jiyanan.wt, 20210903,ADD, generate bt/wlan addr file
-    mkdir /data/vendor/mac_addr 0775 root system
 
     # Create the directories used by WiGig Sensing
     mkdir /data/vendor/sensing 0770 system wifi
@@ -305,10 +313,6 @@ on post-fs-data
 
     #Create the symlink to qcn wpa_supplicant folder for ar6000 wpa_supplicant
     #symlink /data/misc/wifi/wpa_supplicant /data/system/wpa_supplicant
-
-    #Add for ir
-    chown system system /dev/ir_spi
-    chmod 0666 /dev/ir_spi
 
     #Create directories for Location services
     mkdir /data/vendor/location 0770 gps gps
@@ -390,9 +394,6 @@ on post-fs-data
     #Create dir for TUI
     mkdir /data/vendor/tui 0700 system drmrpc
 
-    #Create dir for dolby
-    mkdir /data/vendor/dolby 0770 media media
-
 service nqnfcinfo /system/vendor/bin/nqnfcinfo
     class late_start
     group nfc
@@ -422,10 +423,10 @@ service vendor.ssr_setup /system/vendor/bin/ssr_setup
     oneshot
     disabled
 
-service vendor.ss_ramdump /system/bin/subsystem_ramdump_system 2
+service vendor.ss_ramdump /system/vendor/bin/subsystem_ramdump
     class main
-#    user system
-    group system bluetooth sdcard_rw everybody
+    user system
+    group system
     ioprio rt 4
     disabled
 
@@ -459,7 +460,7 @@ on property:persist.vendor.ssr.restart_level=*
 on property:persist.vendor.ssr.enable_ramdumps=1
     write /sys/module/subsystem_restart/parameters/enable_ramdumps 1
     mkdir /data/vendor/ramdump_ssr 770 system system
-#    start vendor.ss_ramdump
+    start vendor.ss_ramdump
 
 on property:persist.vendor.ssr.enable_ramdumps=0
     write /sys/module/subsystem_restart/parameters/enable_ramdumps 0
@@ -482,8 +483,6 @@ on property:sys.boot_completed=1
     chown media audio /sys/kernel/wcd_cpe0/fw_name
     #Reinit lmkd to reconfigure lmkd properties
     setprop lmkd.reinit 1
-    write /sys/kernel/dload/dload_mode "both"
-    write /sys/kernel/dload/emmc_dload 1
 
 on property:persist.vendor.radio.atfwd.start=false
     stop vendor.atfwd
@@ -494,7 +493,7 @@ on property:vendor.radio.atfwd.start=false
 # corefile limit
 on property:persist.debug.trace=1
     mkdir /data/core 0777 root root
-    write /proc/sys/kernel/core_pattern "/data/core/core-%e-%p"
+    write /proc/sys/kernel/core_pattern "/data/core/%E.%p.%e"
 
 on property:vendor.media.target.version=*
     setprop vendor.sys.media.target.version ${vendor.media.target.version}
@@ -505,6 +504,11 @@ on property:vendor.netflix.bsp_rev=*
 on property:vendor.media.target_variant=*
     setprop ro.media.xml_variant.codecs ${vendor.media.target_variant}
     setprop ro.media.xml_variant.codecs_performance ${vendor.media.target_variant}
+
+service qcom-c_core-sh  /vendor/bin/init.qcom.class_core.sh
+    class core
+    user root
+    oneshot
 
 service qcom-c_main-sh /vendor/bin/init.class_main.sh
     class main
@@ -548,6 +552,14 @@ service vendor.wigig_supplicant /vendor/bin/hw/wpa_supplicant \
     disabled
     oneshot
 
+# Data Migration
+service vendor.move_wifi_data /system/bin/move_wifi_data.sh
+    class main
+    user  wifi
+    group wifi
+    disabled
+    oneshot
+
 service wigignpt /vendor/bin/wigignpt
     class hal
     socket wigig/wigignpt stream 660 system wifi
@@ -558,6 +570,13 @@ service wigignpt /vendor/bin/wigignpt
 
 on property:persist.vendor.wigig.npt.enable=1
     start wigignpt
+
+service vendor.sensingdaemon /vendor/bin/sensingdaemon
+    class hal
+    socket wigig/sensingdaemon stream 660 system wifi
+    user system
+    group wifi
+    disabled
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -ABKLG
     class late_start
@@ -599,633 +618,18 @@ service iprenew_wigig0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
-#+ExtR HONGMI-89895 jiyanan 20210922 add for capture wifi full log start
-service vendor.cnss_diag /vendor/bin/cnss_diag -q -f
-    class late_start
-    user system
-    group system wifi inet net_admin sdcard_rw media_rw diag
-    disabled
+service ptt_socket_app /system/vendor/bin/ptt_socket_app -d
+    class main
+    user wifi
+    group wifi system inet net_admin
+    capabilities NET_ADMIN
     oneshot
 
-service vendor.tcpdump /vendor/bin/tcpdump -i any -W 2 -C 2 -s 134 -w /data/vendor/wlan_logs_t/tcpdump.pcap
-    class main
-    disabled
-    oneshot
-
-service sniffer /vendor/bin/tcpdump -i wlan0 -w /data/vendor/wlan_logs_t/sniffer.pcap
-    class main
-    disabled
-    oneshot
-
-on property:vendor.wififulllog.value=true
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap0
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap0
-    start vendor.cnss_diag
-    start vendor.tcpdump
-
-on property:vendor.wififulllog.value=false
-    stop vendor.cnss_diag
-    stop vendor.tcpdump
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap0
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap0
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap1
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap1
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap2
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap2
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap3
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap3
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap4
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap4
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap5
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap5
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap6
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap6
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap7
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap7
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap8
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap8
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap9
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap9
-    chmod 0664 /data/vendor/wlan_logs_t/tcpdump.pcap10
-    chown system root /data/vendor/wlan_logs_t/tcpdump.pcap10
-
-service startpktlog /system/bin/iwpriv wlan0 pktlog 2
-    class main
+service ptt_ffbm /system/vendor/bin/ptt_socket_app -f -d
     user root
     group root
     disabled
     oneshot
-
-service stoppktlog /system/bin/iwpriv wlan0 pktlog 0
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-
-on property:wifi.pktlog.debug.0.chen=false
-    start stoppktlog
-
-on property:wifi.pktlog.debug.0.chen=true
-    start startpktlog
-#-ExtR HONGMI-89895 jiyanan 20210922 add for capture wifi full log start
-
-#+ExtB HONGMI-89820,liupeng.wt.Add,20211011 add wifi sar
-
-#india k6s
-#2g head sar
-on property:vendor.sysctl.tx=1
-    stop wpa_cli01
-    stop wpa_cli02
-    stop wpa_cli03
-    stop wpa_cli04
-    stop wpa_cli05
-    stop wpa_cli06
-    start wpa_cli01
-service wpa_cli01 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 29
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6s
-#2g body sar
-on property:vendor.sysctl.tx=2
-    stop wpa_cli01
-    stop wpa_cli02
-    stop wpa_cli03
-    stop wpa_cli04
-    stop wpa_cli05
-    stop wpa_cli06
-    start wpa_cli02
-service wpa_cli02 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6s
-#2g restore
-on property:vendor.sysctl.tx=3
-    stop wpa_cli01
-    stop wpa_cli02
-    stop wpa_cli03
-    stop wpa_cli04
-    stop wpa_cli05
-    stop wpa_cli06
-    start wpa_cli03
-service wpa_cli03 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6s
-#5g head sar
-on property:vendor.sysctl.tx=4
-    stop wpa_cli01
-    stop wpa_cli02
-    stop wpa_cli03
-    stop wpa_cli04
-    stop wpa_cli05
-    stop wpa_cli06
-    start wpa_cli04
-service wpa_cli04 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 23
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6s
-#5g body sar
-on property:vendor.sysctl.tx=5
-    stop wpa_cli01
-    stop wpa_cli02
-    stop wpa_cli03
-    stop wpa_cli04
-    stop wpa_cli05
-    stop wpa_cli06
-    start wpa_cli05
-service wpa_cli05 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 32
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6s
-#5g restore
-on property:vendor.sysctl.tx=6
-    stop wpa_cli01
-    stop wpa_cli02
-    stop wpa_cli03
-    stop wpa_cli04
-    stop wpa_cli05
-    stop wpa_cli06
-    start wpa_cli06
-service wpa_cli06 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 32
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6p
-#2g head sar
-on property:vendor.sysctl.tx=11
-    stop wpa_cli11
-    stop wpa_cli12
-    stop wpa_cli13
-    stop wpa_cli14
-    stop wpa_cli15
-    stop wpa_cli16
-    start wpa_cli11
-service wpa_cli11 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 29
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6p
-#2g body sar
-on property:vendor.sysctl.tx=12
-    stop wpa_cli11
-    stop wpa_cli12
-    stop wpa_cli13
-    stop wpa_cli14
-    stop wpa_cli15
-    stop wpa_cli16
-    start wpa_cli12
-service wpa_cli12 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6p
-#2g restore
-on property:vendor.sysctl.tx=13
-    stop wpa_cli11
-    stop wpa_cli12
-    stop wpa_cli13
-    stop wpa_cli14
-    stop wpa_cli15
-    stop wpa_cli16
-    start wpa_cli13
-service wpa_cli13 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6p
-#5g head sar
-on property:vendor.sysctl.tx=14
-    stop wpa_cli11
-    stop wpa_cli12
-    stop wpa_cli13
-    stop wpa_cli14
-    stop wpa_cli15
-    stop wpa_cli16
-    start wpa_cli14
-service wpa_cli14 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 20
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6p
-#5g body sar
-on property:vendor.sysctl.tx=15
-    stop wpa_cli11
-    stop wpa_cli12
-    stop wpa_cli13
-    stop wpa_cli14
-    stop wpa_cli15
-    stop wpa_cli16
-    start wpa_cli15
-service wpa_cli15 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 28
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#india k6p
-#5g restore
-on property:vendor.sysctl.tx=16
-    stop wpa_cli11
-    stop wpa_cli12
-    stop wpa_cli13
-    stop wpa_cli14
-    stop wpa_cli15
-    stop wpa_cli16
-    start wpa_cli16
-service wpa_cli16 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 28
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#CN k6s
-#2g head sar
-on property:vendor.sysctl.tx=21
-    stop wpa_cli21
-    stop wpa_cli22
-    stop wpa_cli23
-    stop wpa_cli24
-    stop wpa_cli25
-    stop wpa_cli26
-    start wpa_cli21
-service wpa_cli21 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 33
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#CN k6s
-#2g body sar
-on property:vendor.sysctl.tx=22
-    stop wpa_cli21
-    stop wpa_cli22
-    stop wpa_cli23
-    stop wpa_cli24
-    stop wpa_cli25
-    stop wpa_cli26
-    start wpa_cli22
-service wpa_cli22 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 38
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#CN k6s
-#2g restore
-on property:vendor.sysctl.tx=23
-    stop wpa_cli21
-    stop wpa_cli22
-    stop wpa_cli23
-    stop wpa_cli24
-    stop wpa_cli25
-    stop wpa_cli26
-    start wpa_cli23
-service wpa_cli23 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 38
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#CN k6s
-#5g head sar
-on property:vendor.sysctl.tx=24
-    stop wpa_cli21
-    stop wpa_cli22
-    stop wpa_cli23
-    stop wpa_cli24
-    stop wpa_cli25
-    stop wpa_cli26
-    start wpa_cli24
-service wpa_cli24 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 27
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#CN k6s
-#5g body sar
-on property:vendor.sysctl.tx=25
-    stop wpa_cli21
-    stop wpa_cli22
-    stop wpa_cli23
-    stop wpa_cli24
-    stop wpa_cli25
-    stop wpa_cli26
-    start wpa_cli25
-service wpa_cli25 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 36
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#CN k6s
-#5g restore
-on property:vendor.sysctl.tx=26
-    stop wpa_cli21
-    stop wpa_cli22
-    stop wpa_cli23
-    stop wpa_cli24
-    stop wpa_cli25
-    stop wpa_cli26
-    start wpa_cli26
-service wpa_cli26 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 36
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#JP k6s
-#2g head sar
-on property:vendor.sysctl.tx=31
-    stop wpa_cli31
-    stop wpa_cli32
-    stop wpa_cli33
-    stop wpa_cli34
-    stop wpa_cli35
-    stop wpa_cli36
-    start wpa_cli31
-service wpa_cli31 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 24
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#JP k6s
-#2g body sar
-on property:vendor.sysctl.tx=32
-    stop wpa_cli31
-    stop wpa_cli32
-    stop wpa_cli33
-    stop wpa_cli34
-    stop wpa_cli35
-    stop wpa_cli36
-    start wpa_cli32
-service wpa_cli32 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#JP k6s
-#2g restore
-on property:vendor.sysctl.tx=33
-    stop wpa_cli31
-    stop wpa_cli32
-    stop wpa_cli33
-    stop wpa_cli34
-    stop wpa_cli35
-    stop wpa_cli36
-    start wpa_cli33
-service wpa_cli33 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#JP k6s
-#5g head sar
-on property:vendor.sysctl.tx=34
-    stop wpa_cli31
-    stop wpa_cli32
-    stop wpa_cli33
-    stop wpa_cli34
-    stop wpa_cli35
-    stop wpa_cli36
-    start wpa_cli34
-service wpa_cli34 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 19
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#JP k6s
-#5g body sar
-on property:vendor.sysctl.tx=35
-    stop wpa_cli31
-    stop wpa_cli32
-    stop wpa_cli33
-    stop wpa_cli34
-    stop wpa_cli35
-    stop wpa_cli36
-    start wpa_cli35
-service wpa_cli35 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 32
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#JP k6s
-#5g restore
-on property:vendor.sysctl.tx=36
-    stop wpa_cli31
-    stop wpa_cli32
-    stop wpa_cli33
-    stop wpa_cli34
-    stop wpa_cli35
-    stop wpa_cli36
-    start wpa_cli36
-service wpa_cli36 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 32
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#GL k6s
-#2g head sar
-on property:vendor.sysctl.tx=41
-    stop wpa_cli41
-    stop wpa_cli42
-    stop wpa_cli43
-    stop wpa_cli44
-    stop wpa_cli45
-    stop wpa_cli46
-    start wpa_cli41
-service wpa_cli41 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 24
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#GL k6s
-#2g body sar
-on property:vendor.sysctl.tx=42
-    stop wpa_cli41
-    stop wpa_cli42
-    stop wpa_cli43
-    stop wpa_cli44
-    stop wpa_cli45
-    stop wpa_cli46
-    start wpa_cli42
-service wpa_cli42 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#GL k6s
-#2g restore
-on property:vendor.sysctl.tx=43
-    stop wpa_cli41
-    stop wpa_cli42
-    stop wpa_cli43
-    stop wpa_cli44
-    stop wpa_cli45
-    stop wpa_cli46
-    start wpa_cli43
-service wpa_cli43 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 37
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#GL k6s
-#5g head sar
-on property:vendor.sysctl.tx=44
-    stop wpa_cli41
-    stop wpa_cli42
-    stop wpa_cli43
-    stop wpa_cli44
-    stop wpa_cli45
-    stop wpa_cli46
-    start wpa_cli44
-service wpa_cli44 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 19
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#GL k6s
-#5g body sar
-on property:vendor.sysctl.tx=45
-    stop wpa_cli41
-    stop wpa_cli42
-    stop wpa_cli43
-    stop wpa_cli44
-    stop wpa_cli45
-    stop wpa_cli46
-    start wpa_cli45
-service wpa_cli45 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 32
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#GL k6s
-#5g restore
-on property:vendor.sysctl.tx=46
-    stop wpa_cli41
-    stop wpa_cli42
-    stop wpa_cli43
-    stop wpa_cli44
-    stop wpa_cli45
-    stop wpa_cli46
-    start  wpa_cli46
-service wpa_cli46 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 32
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-#KR k6s no sar power
-#2g head sar
-on property:vendor.sysctl.tx=51
-    start  wpa_cli51
-service wpa_cli51 /vendor/bin/wpa_cli driver SET_TX_POWER_CALLING 8
-    class main
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:sar:s0
-
-
-#-ExtB HONGMI-89820,liupeng.wt.Add,20211011 add wifi sar
 
 service wifi_ftmd /system/vendor/bin/wifi_ftmd
     user system
@@ -1274,14 +678,16 @@ service loc_launcher /system/vendor/bin/loc_launcher
     user gps
     group gps
 
-on property:persist.sys.xtra-daemon.enabled=*
-    restart loc_launcher
-
 service qcom-sh /vendor/bin/init.qcom.sh
     class late_start
     user root
     group root system radio
     oneshot
+# Remove since is deprecated but throws AVC denial.
+# service crashdata-sh /vendor/bin/init.qcom.crashdata.sh
+#    class late_start
+#    user root
+#    oneshot
 
 service qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
     class late_start
@@ -1289,6 +695,18 @@ service qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
     group root system wakelock graphics
     disabled
     oneshot
+
+service wifi-sdio-on /vendor/bin/init.qcom.sdio.sh
+    class late_start
+    group wifi inet
+    disabled
+    oneshot
+
+service wifi-crda /vendor/bin/init.crda.sh
+   class late_start
+   user root
+   disabled
+   oneshot
 
 on property:sys.boot_completed=1
     start qcom-post-boot
@@ -1352,8 +770,7 @@ service vendor.ssr_diag /system/vendor/bin/ssr_diag
     group system
     disabled
 
-#HONGMI-102656, wuwenting.wt, modify, 20211012, change diag command
-service diag_mdlog_start /system/vendor/bin/diag_mdlog -q 2 -u
+service diag_mdlog_start /system/vendor/bin/diag_mdlog
     class late_start
     user shell
     group system oem_2901 sdcard_rw sdcard_r media_rw
@@ -1415,6 +832,16 @@ service vendor.LKCore-rel /vendor/bin/LKCore
     user system
     group system log diag
 
+service qseeproxydaemon /system/vendor/bin/qseeproxydaemon
+    class late_start
+    user system
+    group system
+
+service esepmdaemon /system/vendor/bin/esepmdaemon
+    class core
+    user system
+    group nfc
+
 on charger
     setprop persist.sys.usb.config mass_storage
     start qcom-post-boot
@@ -1432,6 +859,10 @@ service time_daemon /vendor/bin/time_daemon
     user system
     group system
     capabilities SYS_TIME
+
+# Set vendor-ril lib path based on Meta version
+on property:vendor.rild.libpath=*
+    setprop rild.libpath ${vendor.rild.libpath}
 
 on property:ro.vendor.radio.noril=*
     setprop ro.radio.noril ${ro.vendor.radio.noril}
@@ -1482,5 +913,4 @@ service vendor.audio-hal /vendor/bin/hw/android.hardware.audio.service
     capabilities BLOCK_SUSPEND
     ioprio rt 4
     writepid /dev/cpuset/foreground/tasks /dev/stune/foreground/tasks
-    socket audio_hw_socket seqpacket 0666 system system
     onrestart restart audioserver
