@@ -231,7 +231,10 @@ PRODUCT_PACKAGES += \
     init.holi.rc \
     init.mi.btmac.sh \
     init.qti.early_init.sh \
-    init.target.rc
+    init.target.rc \
+    init.xiaomi.fingerprint.rc \
+    init.xiaomi.rc \
+    ueventd.xiaomi.rc
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/charger_fstab.qti:$(TARGET_COPY_OUT_VENDOR)/etc/charger_fstab.qti \
