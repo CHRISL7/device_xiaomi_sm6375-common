@@ -211,7 +211,6 @@ TARGET_COMMON_QTI_COMPONENTS += \
     display \
     dsprpcd \
     gps \
-    init \
     media \
     perf \
     telephony \
@@ -229,6 +228,7 @@ PRODUCT_PACKAGES += \
 # Rootdir
 PRODUCT_PACKAGES += \
     init.batterysecret.rc \
+    init.holi.rc \
     init.mi.btmac.sh \
     init.qti.early_init.sh \
     init.target.rc
