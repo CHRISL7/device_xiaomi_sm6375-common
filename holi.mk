@@ -150,9 +150,6 @@ PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/idc/,$(TARGET_COPY_OUT_SYSTEM)/usr/idc) \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/keylayout/,$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout)
 
-# Kernel
-PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
-
 # Keymaster
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@4.1.vendor
@@ -235,6 +232,7 @@ TARGET_COMMON_QTI_COMPONENTS += \
     display \
     dsprpcd \
     gps \
+    init \
     media \
     perf \
     telephony \
@@ -249,27 +247,17 @@ PRODUCT_PACKAGES += \
 
 # Rootdir
 PRODUCT_PACKAGES += \
-    init.batterysecret.rc \
-    init.class_main.sh \
-    init.holi.rc \
     init.goodix.events.sh \
     init.mi.btmac.sh \
-    init.kernel.post_boot.sh \
-    init.kernel.post_boot-blair.sh \
-    init.kernel.post_boot-holi.sh \
-    init.qcom.sh \
-    init.qcom.early_boot.sh \
-    init.qcom.post_boot.sh \
-    init.qcom.rc \
-    init.qti.early_init.sh \
-    init.qti.kernel.rc \
-    init.qti.kernel.sh \
+    init.qti.early_init.sh
+
+PRODUCT_PACKAGES += \
+    init.batterysecret.rc \
+    init.holi.rc \
     init.target.rc \
     init.xiaomi.fingerprint.rc \
     init.xiaomi.rc \
-    ueventd.qcom.rc \
-    ueventd.xiaomi.rc \
-    vendor_modprobe.sh
+    ueventd.xiaomi.rc
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/charger_fstab.qti:$(TARGET_COPY_OUT_VENDOR)/etc/charger_fstab.qti \
@@ -278,8 +266,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/fstab.default:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.default \
     $(LOCAL_PATH)/rootdir/etc/fstab.emmc:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.emmc \
     $(LOCAL_PATH)/rootdir/etc/fstab.emmc:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.emmc \
-    $(LOCAL_PATH)/rootdir/etc/fstab.emmc:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.emmc \
-    $(LOCAL_PATH)/rootdir/etc/init.recovery.qcom.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.qcom.rc
+    $(LOCAL_PATH)/rootdir/etc/fstab.emmc:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.emmc
 
 # Sensors
 PRODUCT_PACKAGES += \
