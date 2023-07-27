@@ -1,0 +1,15 @@
+on post-fs
+    mkdir /mnt/vendor/dsp 0770 root root
+    copy /vendor/dsp/cdsp/fastrpc_shell_3 /mnt/vendor/dsp/fastrpc_shell_3
+    chmod 0644 /mnt/vendor/dsp/fastrpc_shell_3
+    mount none /mnt/vendor/dsp/fastrpc_shell_3 /vendor/dsp/cdsp/fastrpc_shell_3 bind
+
+service vendor.btmac-sh /vendor/bin/init.mi.btmac.sh
+    class late_start
+    user system
+    group system bluetooth wifi
+    oneshot
+    disabled
+
+on property:init.svc.vendor.nv_mac=stopped
+    start vendor.btmac-sh
