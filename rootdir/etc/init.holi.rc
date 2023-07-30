@@ -18,3 +18,6 @@ service vendor.btmac-sh /vendor/bin/init.mi.btmac.sh
 
 on property:init.svc.vendor.nv_mac=stopped
     start vendor.btmac-sh
+
+on property:ro.boot.hwname=*
+    setprop ro.boot.product.hardware.sku ${ro.boot.hwname}
