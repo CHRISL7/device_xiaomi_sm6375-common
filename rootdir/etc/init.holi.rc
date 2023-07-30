@@ -3,6 +3,9 @@ on init
     chown system system /proc/tp_gesture
     chmod 0644 /proc/tp_gesture
 
+on property:ro.boot.hwname=*
+    setprop ro.boot.product.hardware.sku ${ro.boot.hwname}
+
 on property:init.svc.vendor.nv_mac=stopped
     start vendor.btmac-sh
 
