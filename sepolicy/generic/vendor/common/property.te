@@ -1,0 +1,2 @@
+# kernel modprobe prop
+vendor_restricted_prop(vendor_modprobe_prop);
