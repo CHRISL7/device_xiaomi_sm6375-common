@@ -1,0 +1,2 @@
+# kernel modprobe
+vendor.all.modules.ready   u:object_r:vendor_modprobe_prop:s0
