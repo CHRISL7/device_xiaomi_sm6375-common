@@ -208,6 +208,7 @@ vendor.gatekeeper.disable_spu=true
 
 # Media
 debug.stagefright.c2inputsurface=-1
+debug.stagefright.ccodec=4
 debug.stagefright.omx_default_rank=0
 
 # NFC

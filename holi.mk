@@ -156,16 +156,23 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_PACKAGES += \
+    libavservices_minijail.vendor \
     libavservices_minijail_vendor \
+    libcodec2_hidl@1.1.vendor \
+    libmm-omxcore \
     libOmxAacEnc \
     libOmxAmrEnc \
+    libOmxCore \
     libOmxEvrcEnc \
     libOmxG711Enc \
     libOmxQcelp13Enc \
+    libstagefrighthw \
     libstagefright_omx \
     libstagefright_foundation \
-    libcodec2_soft_common.vendor \
-    libsfplugin_ccodec_utils.vendor
+    libstagefright_softomx.vendor
+
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    vendor.media.target_variant=_holi
 
 # Mlipay
 PRODUCT_PACKAGES += \
@@ -233,7 +240,6 @@ TARGET_COMMON_QTI_COMPONENTS += \
     dsprpcd \
     gps \
     init \
-    media \
     perf \
     telephony \
     usb \
