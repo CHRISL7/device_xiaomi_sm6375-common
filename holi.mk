@@ -237,6 +237,7 @@ TARGET_COMMON_QTI_COMPONENTS += \
     charging \
     display \
     gps \
+    overlay \
     perf \
     telephony \
     usb \
