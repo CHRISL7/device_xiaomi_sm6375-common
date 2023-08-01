@@ -180,10 +180,10 @@ BOARD_AVB_VENDOR_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_ODM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 
 # VINTF
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/vintf/manifest.xml
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/vintf/xiaomi_common_manifest.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/vintf/manifest.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/vintf/xiaomi_common_manifest.xml
 
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(COMMON_PATH)/vintf/xiaomi_common_framework_compatibility_matrix.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(COMMON_PATH)/configs/vintf/xiaomi_common_framework_compatibility_matrix.xml
 
 # WiFi
 BOARD_WLAN_DEVICE := qcwcn
