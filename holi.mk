@@ -146,7 +146,8 @@ PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := verify
 # Display
 PRODUCT_PACKAGES += \
     android.frameworks.displayservice@1.0.vendor \
-    libdisplayconfig.qti
+    libdisplayconfig.qti \
+    DT2W-Service-Holi
 
 PRODUCT_ODM_PROPERTIES += \
     vendor.display.enable_rounded_corner=0 \
