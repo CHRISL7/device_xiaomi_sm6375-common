@@ -13,14 +13,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<!-- Xiaomi sm8350 specific carrier overlays -->
+<!-- Xiaomi holi specific carrier overlays -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.carrierconfig.xiaomi_sm8350"
-    android:versionCode="1"
-    android:versionName="1.0">
-    <application android:hasCode="false" />
+    package="com.android.carrierconfig.holi">
+
+    <application 
+        android:hasCode="false" />
+    
     <overlay
-      android:targetPackage="com.android.carrierconfig"
-      android:isStatic="true"
-      android:priority="0"/>
+        android:isStatic="true"
+        android:priority="800"
+        android:targetPackage="com.android.carrierconfig" />
 </manifest>
