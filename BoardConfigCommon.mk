@@ -81,11 +81,6 @@ TARGET_COPY_OUT_PRODUCT := product
 BOARD_USES_METADATA_PARTITION := true
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# Properties
-TARGET_PRODUCT_PROP += $(COMMON_PATH)/properties/product.prop
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/properties/system.prop
-TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
-
 # Power
 TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
 
