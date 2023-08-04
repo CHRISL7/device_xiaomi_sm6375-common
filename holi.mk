@@ -113,9 +113,13 @@ PRODUCT_PACKAGES += \
     android.hardware.neuralnetworks@1.3.vendor
 
 # Overlays
-PRODUCT_ENFORCE_RRO_TARGETS := *
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
+PRODUCT_PACKAGES += \
+    AOSPAHoliFrameworksOverlay \
+    HoliCarrierConfigOverlay \
+    HoliFrameworksOverlay \
+    HoliSettingsOverlay \
+    HoliSystemUIOverlay \
+    HoliWifiOverlay
 
 # Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -172,10 +176,6 @@ TARGET_COMMON_QTI_COMPONENTS += \
     usb \
     vibrator \
     wfd
-
-# RIL
-PRODUCT_PACKAGES += \
-    HoliCarrierConfigOverlay
 
 # Rootdir
 PRODUCT_PACKAGES += \
@@ -258,7 +258,6 @@ PRODUCT_PACKAGES += \
     libwpa_client \
     vendor.qti.hardware.wifi.hostapd@1.2.vendor \
     vendor.qti.hardware.wifi.supplicant@2.1.vendor \
-    HoliWifiOverlay \
     wpa_cli \
     wpa_supplicant \
     wpa_supplicant.conf
