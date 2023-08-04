@@ -153,11 +153,13 @@ PRODUCT_VENDOR_PROPERTIES += \
     debug.hwui.target_cpu_time_percent=30 \
     debug.sf.disable_backpressure=1 \
     debug.sf.enable_transaction_tracing=false \
+    ro.vendor.display.sensortype=2 \
     ro.vendor.display.svi=1 \
     ro.vendor.sf.enable_fb_scaling=1 \
     vendor.display.enable_perf_hint_large_comp_cycle=1 \
     vendor.display.enable_posted_start_dyn=2 \
     vendor.display.idle_time=1100 \
+    vendor.display.qdcm.mode_combine=2 \
     vendor.display.svi.config=1 \
     vendor.display.svi.config_path=/vendor/etc/SVIConfig.xml
 
