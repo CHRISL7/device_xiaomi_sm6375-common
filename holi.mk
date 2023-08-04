@@ -175,7 +175,7 @@ TARGET_COMMON_QTI_COMPONENTS += \
 
 # RIL
 PRODUCT_PACKAGES += \
-    CarrierConfigOverlay
+    HoliCarrierConfigOverlay
 
 # Rootdir
 PRODUCT_PACKAGES += \
@@ -258,7 +258,7 @@ PRODUCT_PACKAGES += \
     libwpa_client \
     vendor.qti.hardware.wifi.hostapd@1.2.vendor \
     vendor.qti.hardware.wifi.supplicant@2.1.vendor \
-    WifiOverlay \
+    HoliWifiOverlay \
     wpa_cli \
     wpa_supplicant \
     wpa_supplicant.conf
