@@ -128,6 +128,12 @@ vendor/lib64/hw/vendor.qti.hardware.capabilityconfigstore@1.0-impl.so
 # Consumer IR
 vendor/lib64/hw/consumerir.default.so:vendor/lib64/hw/consumerir.holi.so
 
+# Diag
+vendor/bin/diag-router
+vendor/etc/init/vendor.qti.diag.rc
+-vendor/etc/vintf/manifest/vendor.qti.diag.hal.service.xml
+vendor/lib64/vendor.qti.diaghal@1.0.so
+
 # Display SV
 vendor/etc/SVIConfig.xml
 
@@ -378,7 +384,6 @@ vendor/lib64/libqmiservices.so
 vendor/bin/hw/qcrilNrd
 vendor/bin/ATFWD-daemon
 vendor/bin/adpl
-vendor/bin/diag-router
 vendor/bin/netmgrd
 vendor/bin/pd-mapper
 vendor/bin/port-bridge
