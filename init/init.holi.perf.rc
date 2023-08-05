@@ -12,6 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+on property:vendor.post_boot.parsed=1
+    # Setup runtime cpusets
+    write /dev/cpuset/background/cpus 0-2
+    write /dev/cpuset/foreground/cpus 4-7
+    write /dev/cpuset/system-background/cpus 0-5
+    write /dev/cpuset/top-app/cpus 0-7
+
+    # Configure input boost settings
+    write /sys/devices/system/cpu/cpu_boost/input_boost_freq "0:1516800"
+    write /sys/devices/system/cpu/cpu_boost/input_boost_ms 120
+
+    write /sys/devices/system/cpu/cpu_boost/powerkey_input_boost_freq "0:1804800 1:0 2:0 3:0 4:0 5:0 6:2016000 7:0"
+    write /sys/devices/system/cpu/cpu_boost/powerkey_input_boost_ms 400
+
 on property:persist.sys.device_provisioned=1
     setprop dalvik.vm.dex2oat-cpu-set 0,1,2,3,4,5,7
     setprop dalvik.vm.dex2oat-threads 6
