@@ -18,7 +18,6 @@ vendor/lib64/hw/vendor.qti.hardware.bluetooth_sar@1.1-impl.so
 vendor/lib64/hw/vendor.qti.hardware.btconfigstore@1.0-impl.so
 vendor/lib64/hw/vendor.qti.hardware.btconfigstore@2.0-impl.so
 vendor/lib64/libbtnv.so
-vendor/lib64/libsoc_helper.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.1.so
 
@@ -334,7 +333,10 @@ vendor/lib64/libperipheral_client.so
 # QCV
 vendor/bin/init.qti.qcv.sh
 vendor/etc/init/init.qti.qcv.rc
-
+vendor/lib/libsoc_helper.so
+vendor/lib/libsoc_helper_jni.so
+vendor/lib64/libsoc_helper.so
+vendor/lib64/libsoc_helper_jni.so
 # QMI
 vendor/bin/irsc_util
 vendor/bin/qmipriod
