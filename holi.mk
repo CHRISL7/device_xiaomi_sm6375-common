@@ -46,28 +46,19 @@ PRODUCT_SYSTEM_PROPERTIES += \
     ro.config.vc_call_vol_steps=11
 
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.audio.monitorRotation=true \
+    persist.vendor.audio.ring.filter.mask=0 \
+    persist.vendor.audio.voicecall.speaker.stereo=true \
     ro.vendor.audio.sos=true \
+    ro.vendor.audio.game.effect=true \
     ro.vendor.audio.game.mode=true \
-    ro.vendor.audio.voice.volume.boost=manual \
-    ro.vendor.audio.afe.record=true \
-    ro.vendor.audio.us.proximity=true \
-    ro.vendor.audio.voice.change.support=true \
+    ro.vendor.audio.miui.karaoke.tencent.show=false \
+    ro.vendor.audio.ring.filter=true \
     ro.vendor.audio.soundfx.type=mi \
-    ro.vendor.audio.vocal.support=true \
-    ro.vendor.audio.surround.support=true \
     ro.vendor.audio.scenario.support=true \
     ro.vendor.audio.sfx.scenario=true \
-    ro.vendor.audio.spk.stereo=true \
     ro.vendor.audio.sfx.earadj=true \
     ro.vendor.audio.soundfx.usb=true \
-    ro.vendor.audio.miui.karaoke.show=false \
-    ro.vendor.audio.miui.karaoke.tencent.show=false \
-    ro.vendor.audio.voice.change.youme.support=true \
-    persist.vendor.audio.misound.disable=true \
-    persist.vendor.audio.delta.refresh=true \
-    vendor.audio.chk.cal.spk=2 \
-    vendor.audio.chk.cal.us=2
+    ro.vendor.audio.voice.change.support=true
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.audio.soundtrigger.xiaomievent=1 \
@@ -103,16 +94,20 @@ PRODUCT_PRODUCT_PROPERTIES  += \
     bluetooth.hardware.power.rx_cur_ma=20 \
     bluetooth.hardware.power.tx_cur_ma=36
 
+PRODUCT_SYSYEM_EXT_PROPERTIES  += \
+    persist.vendor.btstack.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aptxadaptiver2-aac-ldac
+
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.bluetooth.defaultabsvol=false \
     ro.vendor.bluetooth.wipower=false \
     persist.bluetooth.disableabsvol=true \
     persist.vendor.bluetooth.modem_nv_support=true \
     persist.vendor.qcom.bluetooth.aac_vbr_ctl.enabled=false \
-    persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac \
+    persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac-aptxadaptive \
     persist.vendor.qcom.bluetooth.enable.splita2dp=true \
     persist.vendor.qcom.bluetooth.scram.enabled=false \
-    persist.vendor.qcom.bluetooth.twsp_state.enabled=false
+    persist.vendor.qcom.bluetooth.twsp_state.enabled=false \
+    vendor.qcom.bluetooth.soc=hastings
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -124,7 +119,8 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.camera.postproc@1.0.vendor
 
 PRODUCT_VENDOR_PROPERTIES += \
-    camera.disable_zsl_mode=1
+    camera.disable_zsl_mode=1 \
+    sys.haptic.ignoreWhenCamera=true
 
 # Charger
 PRODUCT_VENDOR_PROPERTIES += \
@@ -148,17 +144,14 @@ PRODUCT_PACKAGES += \
     android.frameworks.displayservice@1.0.vendor \
     libdisplayconfig.qti
 
+PRODUCT_ODM_PROPERTIES += \
+    vendor.display.enable_rounded_corner=0 \
+    vendor.display.use_smooth_motion=0 \
+
 PRODUCT_VENDOR_PROPERTIES += \
-    debug.hwui.use_hint_manager=true \
-    debug.hwui.target_cpu_time_percent=30 \
     debug.sf.disable_backpressure=1 \
-    debug.sf.enable_transaction_tracing=false \
     ro.vendor.display.sensortype=2 \
     ro.vendor.display.svi=1 \
-    ro.vendor.sf.enable_fb_scaling=1 \
-    vendor.display.enable_perf_hint_large_comp_cycle=1 \
-    vendor.display.enable_posted_start_dyn=2 \
-    vendor.display.idle_time=1100 \
     vendor.display.qdcm.mode_combine=2 \
     vendor.display.svi.config=1 \
     vendor.display.svi.config_path=/vendor/etc/SVIConfig.xml
@@ -196,6 +189,10 @@ BOARD_HAVE_QCOM_FM := true
 PRODUCT_VENDOR_PROPERTIES += \
     ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
+#  FUSE passthrough
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.sys.fuse.passthrough.enable=true
+
 # Gatekeeper
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0.vendor
@@ -209,12 +206,24 @@ PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/keylayout/,$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout)
 
 # Incremental FS
-PRODUCT_VENDOR_OVERRIDES += \
+PRODUCT_VENDOR_PROPERTIES += \
     ro.incremental.enable=1
+
+# Keyguard
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.wm.enable_remote_keyguard_animation=0
 
 # Keymaster
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@4.1.vendor
+
+# LMK
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.sys.mms.use_legacy=true \
+    persist.sys.mms.kill_fas_cached_idle=false \
+    persist.sys.spc.protect.critical.count=2 \
+    ro.lmk.kill_heaviest_task=true \
+    ro.lmk.kill_timeout_ms=15
 
 # Media
 PRODUCT_PACKAGES += \
@@ -318,13 +327,18 @@ TARGET_COMMON_QTI_COMPONENTS += \
     wfd
 
 # Radio
+PRODUCT_PRODUCT_PROPERTIES += \
+    persist.vendor.radio.enable_temp_dds=true \
+    ro.vendor.radio.5g=3 \
+    ro.vendor.radio.features_common=3 \
+    ro.vendor.radio.fastdormancy=true
+
 PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.data.iwlan.enable=true \
     persist.vendor.radio.atfwd.start=true \
     persist.vendor.radio.data_ltd_sys_ind=1 \
     persist.vendor.radio.dynamic_load_mbn=3 \
     persist.vendor.radio.dynamic_sar=1 \
-    persist.vendor.radio.enable_temp_dds=true \
     persist.vendor.radio.force_ltd_sys_ind=1 \
     persist.vendor.radio.force_on_dc=true \
     persist.vendor.radio.hidl_dev_service=true \
@@ -332,7 +346,6 @@ PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.radio.mbn_trace=true \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.default_cdma_sub=0 \
-    ro.vendor.radio.5g=3 \
     ro.vendor.use_data_netmgrd=true
 
 # Rootdir
