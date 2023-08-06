@@ -3,3 +3,31 @@ soong_namespace {
         "hardware/xiaomi",
     ],
 }
+
+prebuilt_hidl_interfaces {
+    name: "hidl_netperftuner_interface",
+    interfaces: [
+        "vendor.qti.hardware.wigig.netperftuner@1.0::INetPerfTuner",
+    ],
+}
+
+prebuilt_hidl_interfaces {
+    name: "hidl_Wificfr_interface",
+    interfaces: [
+        "vendor.qti.hardware.wifi.wificfr@1.0::IWificfr",
+    ],
+}
+
+prebuilt_hidl_interfaces {
+    name: "hidl_WifiMyFtm_interface",
+    interfaces: [
+        "vendor.qti.hardware.wifi.wifimyftm@1.0::IWifiMyFtm",
+    ],
+}
+
+prebuilt_hidl_interfaces {
+    name: "hidl_WifiStats_interface",
+    interfaces: [
+        "vendor.qti.hardware.wifi.wifilearner@1.0::IWifiStats"
+    ],
+}
