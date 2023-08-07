@@ -53,3 +53,6 @@ vendor.sys.thermal.                     u:object_r:vendor_thermal_normal_prop:s0
 ro.vendor.ril.oem.btmac                 u:object_r:vendor_wifi_prop:s0
 ro.vendor.ril.oem.wifimac               u:object_r:vendor_wifi_prop:s0
 wifi.interface                          u:object_r:wifi_hal_prop:s0
+
+# Touchfeature
+ro.vendor.touchfeature.type             u:object_r:vendor_touchfeature_prop:s0
