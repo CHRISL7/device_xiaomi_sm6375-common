@@ -13,3 +13,10 @@ cc_library_static {
     ],
     vendor: true,
 }
+
+cc_binary {
+    name: "xiaomi-touch",
+    srcs: [
+	"xiaomi-touch.cpp",
+    ],
+}
