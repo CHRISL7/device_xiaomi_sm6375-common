@@ -131,6 +131,17 @@ PRODUCT_PACKAGES += \
     android.frameworks.displayservice@1.0.vendor \
     libdisplayconfig.qti
 
+PRODUCT_ODM_PROPERTIES += \
+    vendor.display.enable_camera_smooth=1 \
+    vendor.display.target.version 3 \
+    vendor.display.disable_offline_rotator 0 \
+    vendor.display.disable_rotator_ubwc 1 \
+    vendor.display.enable_perf_hint_large_comp_cycle 1 \
+    vendor.display.enable_posted_start_dyn 1 \
+    vendor.display.enable_allow_idle_fallback 1 \
+    vendor.display.enable_rc_support 1 \
+    vendor.display.enable_async_powermode 1
+
 PRODUCT_VENDOR_PROPERTIES += \
     debug.sf.disable_backpressure=1 \
     ro.vendor.display.sensortype=2 \
