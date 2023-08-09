@@ -1,3 +1,5 @@
+allow rild mnt_vendor_file:dir r_dir_perms;
+
 add_hwservice(rild, hal_rilnv_hwservice)
 set_prop(rild, vendor_deviceid_prop)
 set_prop(rild, vendor_sno_prop)
