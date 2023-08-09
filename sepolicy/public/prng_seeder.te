@@ -1,0 +1,1 @@
+allow prng_seeder tmpfs:chr_file { write };

@@ -1,0 +1,2 @@
+allow vendor_init bluetooth_prop:property_service { set };
+allow vendor_init vendor_qcc_prop:property_service { set };

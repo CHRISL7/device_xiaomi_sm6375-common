@@ -1,0 +1,2 @@
+allow vendor_sensors default_prop:file { read };
+allow vendor_sensors sysfs:file { read };
