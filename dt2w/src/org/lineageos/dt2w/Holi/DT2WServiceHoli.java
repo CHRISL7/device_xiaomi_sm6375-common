@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.SystemProperties;
 import android.os.UserHandle;
-import android.provider.Settings.Secure;
+import android.provider.Settings;
 
 public class DT2WServiceHoli extends Service {
     private static final String TAG = "DT2WServiceHoli";
@@ -46,19 +46,19 @@ public class DT2WServiceHoli extends Service {
 
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Secure.getUriFor(Secure.DOUBLE_TAP_TO_WAKE),
+            resolver.registerContentObserver(Settings.System.getUriFor(Settings.System.GESTURE_DOUBLE_TAP),
                     false, this, UserHandle.USER_CURRENT);
         }
 
         void update() {
-            int dt2wValue = Secure.getInt(mContext.getContentResolver(), Secure.DOUBLE_TAP_TO_WAKE, 0);
+            int dt2wValue =  Settings.System.getInt(mContext.getContentResolver(), Settings.System.GESTURE_DOUBLE_TAP, 0);
             boolean dt2wEnabled = dt2wValue == 1;
             SystemProperties.set("persist.sys.holi.dt2w", dt2wEnabled ? "1" : "0");
         }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-            if (uri.equals(Secure.getUriFor(Secure.DOUBLE_TAP_TO_WAKE))) {
+            if (uri.equals(Settings.System.getUriFor(Settings.System.GESTURE_DOUBLE_TAP))) {
                 update();
             }
         }
