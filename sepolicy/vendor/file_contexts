@@ -80,6 +80,15 @@
 /vendor/lib(64)?/libmiphone_capture_bokeh\.so         u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libipebpsstriping\.so                                                                                         u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libipebpsstriping170\.so                                                                                      u:object_r:same_process_hal_file:s0
+/sys/devices/platform/soc/5c1b000.qcom,cci0/5c1b000.qcom,cci0:qcom,camera-flash@0    u:object_r:vendor_sysfs_graphics:s0
+
+# Display
+/sys/devices/virtual/mi_display/disp_feature/disp-DSI-0/dynamic_fps     u:object_r:vendor_sysfs_graphics:s0
+/sys/devices/virtual/mi_display/disp_feature/disp-DSI-+[0-1](/.*)?      u:object_r:vendor_sysfs_graphics:s0
+/sys/devices/virtual/mi_display/disp_feature/disp-DSI-+[0-1]/disp_count    u:object_r:vendor_sysfs_graphics:s0
+/sys/devices/virtual/huaqin/                                            u:object_r:huaqin_sysfs:s0
+/sys/devices/platform/soc/soc:simtray/status                   		   u:object_r:sysfs_simtray_status:s0
+/sys/devices/platform/soc/4c88000.i2c/i2c-2/2-0038/fts_edge_mode   u:object_r:vendor_sysfs_sensors:s0
 
 # Fingerprint
 /dev/goodix_fp                                                                                                                 u:object_r:fingerprint_device:s0
@@ -102,6 +111,22 @@
 
 # Health
 /sys/devices/platform/soc/soc:maxim_ds28e16/ds_page0_data                                                                      u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-0071/power_supply/sm5602_bat/capacity				 u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-0071/power_supply/sm5602_bat/status				u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/bq25890_charger/status				u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/usb/usb_type					u:object_r:vendor_sysfs_usb_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-0071/power_supply/sm5602_bat/voltage_now				u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/bq25890_charger/constant_charge_current		u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-0071/power_supply/sm5602_bat/temp					u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/bq25890_charger/health				u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/usb/type        				u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-0071/power_supply/sm5602_bat/current_now				u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c90000.i2c/i2c-3/3-0051/power_supply/ln8000_standalone/present			u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/bq25890_charger/constant_charge_voltage		u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/usb/online					u:object_r:vendor_sysfs_usb_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-0071/power_supply/sm5602_bat/cycle_count				u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/bq25890_charger/constant_charge_voltage_max	u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4c84000.i2c/i2c-1/1-006a/power_supply/usb(/.*)?  u:object_r:vendor_sysfs_usb_supply:s0
 
 # IR
 /dev/ir_spi                                                                                                                    u:object_r:ir_spi_device:s0
@@ -115,6 +140,11 @@
 
 # Label discard_max_bytes in /data partition
 /sys/devices/platform/soc/4804000.ufshc/host0/target0:0:0/0:0:0:0/block/sda/queue/discard_max_bytes                            u:object_r:vendor_sysfs_scsi_host:s0
+
+# Leds
+/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm8350c@2:qcom,flash_led@ee00/leds/led:torch_[0-3](/.*)        u:object_r:sysfs_leds:s0
+/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm8350c@2:qcom,flash_led@ee00/leds/led:flash_[0-3](/.*)        u:object_r:sysfs_leds:s0
+/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-02/c440000.qcom,spmi:qcom,pm8350c@2:qcom,flash_led@ee00/leds/led:switch_[0-3](/.*)       u:object_r:sysfs_leds:s0
 
 # NFC
 /dev/pn553                                                                                                                     u:object_r:nfc_device:s0
