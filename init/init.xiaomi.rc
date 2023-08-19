@@ -113,6 +113,10 @@ on boot
     chmod 0644 /mnt/vendor/persist/audio/aw_cali.bin
     chmod 0644 /mnt/vendor/persist/audio/fsm_calib.bin
 
+    # Set xiaomi touch permissions
+    chown system system /dev/xiaomi-touch
+    chmod 0664 /dev/xiaomi-touch
+
 on charger
     start mi_thermald   
 
