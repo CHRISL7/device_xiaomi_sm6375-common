@@ -1,13 +1,11 @@
 allow init adsprpcd_file:file mounton;
 allow init vendor_sysfs_graphics:file mounton;
 
+allow init hal_fingerprint_default:process ptrace;
+
 # Allow init to set read_ahead_kb and discard_max_bytes on /data partition
 allow init vendor_sysfs_scsi_host:file w_file_perms;
 
 # /proc/last_kmsg
 allow init proc_last_kmsg:file r_file_perms;
 allow init proc_last_kmsg:file setattr;
-
-allow init vendor_file:file execute;
-
-allow init hwservicemanager:binder { call transfer };
