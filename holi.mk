@@ -52,6 +52,7 @@ PRODUCT_ODM_PROPERTIES += \
     vendor.audio.offload.buffer.size.kb=256
 
 PRODUCT_SYSTEM_PROPERTIES += \
+    ro.config.vc_call_vol_default=9 \
     ro.config.vc_call_vol_steps=11
 
 PRODUCT_VENDOR_PROPERTIES += \
