@@ -5,6 +5,7 @@
 #
 
 COMMON_PATH := device/xiaomi/sm6375-common
+COMMON_SEPOLICY_PATH := device/qcom/common/sepolicy
 
 # A/B
 AB_OTA_UPDATER := true
@@ -110,9 +111,18 @@ VENDOR_SECURITY_PATCH := 2023-07-01
 include device/qcom/sepolicy_vndr-legacy-um/SEPolicy.mk
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/private
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/public
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(COMMON_SEPOLICY_PATH)/common/private
+SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(COMMON_SEPOLICY_PATH)/common/public
 BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
 BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/qva/vendor/common
 BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/generic/vendor/common
+
+ifneq ($(AOSPA_BUILD),)
+    BOARD_VENDOR_SEPOLICY_DIRS += \
+        $(COMMON_SEPOLICY_PATH)/pixel/vendor
+    SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += \
+        $(COMMON_SEPOLICY_PATH)/aospa/private
+endif
 
 BUILD_BROKEN_VENDOR_PROPERTY_NAMESPACE := true
 
