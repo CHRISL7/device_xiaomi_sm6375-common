@@ -429,6 +429,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_VENDOR_PROPERTIES += \
     vendor.sys.thermal.data.path=/data/vendor/thermal/
 
+# Touch
+PRODUCT_PACKAGES += \
+    xiaomi-touch
+
 # Update engine
 PRODUCT_PACKAGES += \
     update_engine \

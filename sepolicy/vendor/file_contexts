@@ -170,4 +170,5 @@
 /vendor/bin/nv_mac                                                                                                             u:object_r:vendor_wcnss_service_exec:s0
 
 # Xiaomi-touch
+/(vendor|system/vendor)/bin/xiaomi-touch     u:object_r:xiaomi_touch_exec:s0
 /dev/xiaomi-touch                                                                                                              u:object_r:vendor_touchfeature_device:s0
