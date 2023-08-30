@@ -284,7 +284,6 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 # Overlays
 PRODUCT_PACKAGES += \
-    AOSPAHoliFrameworksOverlay \
     HoliCarrierConfigOverlay \
     HoliFrameworksOverlay \
     HoliSettingsOverlay \
@@ -331,8 +330,12 @@ PRODUCT_COPY_FILES += \
 
 # QCOM/COMMON
 TARGET_BOARD_PLATFORM := holi
+TARGET_USE_HOLI_HALS := true
 TARGET_SEPOLICY_DIR := holi
 TARGET_EXCLUDE_QCOM_SEPOLICY := true
+TARGET_GRALLOC_HANDLE_HAS_RESERVED_SIZE := true
+
+$(call inherit-product, device/qcom/common/common.mk)
 
 TARGET_COMMON_QTI_COMPONENTS += \
     adreno \

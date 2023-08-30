@@ -88,6 +88,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # Power
 TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
 
+# QCOM/COMMON
+include device/qcom/common/BoardConfigQcom.mk
+
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
 BOARD_USES_RECOVERY_AS_BOOT := true
